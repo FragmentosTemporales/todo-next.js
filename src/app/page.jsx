@@ -1,14 +1,15 @@
 "use client";
 import { useTasks } from "@/context/TasksContext";
-import TaskCard from "../../components/taskCard";
+import TaskCard from "../components/taskCard";
 
 function HomePage() {
   const { tasks } = useTasks();
+  console.log(tasks);
 
   return (
     <div>
       {tasks.map((task) => (
-        <TaskCard task={task} key={task.id}/>
+        <TaskCard task={task} key={task.id} />
       ))}
     </div>
   );

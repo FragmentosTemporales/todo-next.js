@@ -1,4 +1,4 @@
-import NavBar from "../../components/navBar";
+import NavBar from "../components/navBar";
 import "./globals.css";
 import { TaskProvider } from "@/context/TasksContext";
 
