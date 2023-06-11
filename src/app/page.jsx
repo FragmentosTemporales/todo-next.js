@@ -7,10 +7,12 @@ function HomePage() {
   console.log(tasks);
 
   return (
-    <div>
+    <div className="flex justify-center">
+      <div className="w-7/12 ">
       {tasks.map((task) => (
         <TaskCard task={task} key={task.id} />
       ))}
+    </div>
     </div>
   );
 }
