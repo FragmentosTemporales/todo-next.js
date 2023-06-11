@@ -1,6 +1,7 @@
 import NavBar from "../components/navBar";
 import "./globals.css";
 import { TaskProvider } from "@/context/TasksContext";
+import {Toaster} from "./Toaster"
 
 export const metadata = {
   title: "Create Next App",
@@ -11,8 +12,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <NavBar />
-        <TaskProvider>{children}</TaskProvider>
+        <TaskProvider>
+          <NavBar />
+          {children}
+          <Toaster
+          position="bottom-left"
+          reverseOrder={false}/>
+        </TaskProvider>
       </body>
     </html>
   );
