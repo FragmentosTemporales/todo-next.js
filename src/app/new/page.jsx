@@ -1,48 +1,50 @@
 "use client";
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import { useTasks } from "@/context/TasksContext";
 import { useRouter } from "next/navigation";
+import {useForm} from 'react-hook-form'
 
 function NewTask({ params }) {
-  const [task, setTask] = useState({ title: "", description: "" });
   const { tasks, createTask, updateTask } = useTasks();
   const router = useRouter();
+  const {register, handleSubmit, setValue, formState: {errors}} = useForm()
 
-  const handleChange = (e) => {
-    setTask({ ...task, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const onSubmit = handleSubmit((data)=>{
     if(params.id) {
-        updateTask(params.id, task)
-    } else {
-        createTask(task.title, task.description);
-    }
+      updateTask(params.id, data)
+  } else {
+      createTask(data.title, data.description);
+  }
+  router.push("/");
 
-    router.push("/");
-  };
+  })
+
   useEffect(() => {
     if (params.id) {
         const taskFound = tasks.find((task) => task.id === params.id);
-        if (taskFound) setTask({title: taskFound.title, description: taskFound.description})
+        if (taskFound) {
+          setValue('title', taskFound.title)
+          setValue('description', taskFound.description)
+        }
     }
   }, []);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        name="title"
-        onChange={handleChange}
-        value={task.title}
+    <form onSubmit={onSubmit}>
+      <input        
         placeholder="write a title"
+        {...register("title", {required: true})}
       />
-      <textarea
-        name="description"
-        onChange={handleChange}
-        value={task.description}
+      {errors.title && (
+        <span>This field is required</span>
+      )}
+      <textarea        
         placeholder="Write a description"
+        {...register("description", {required: true})}
       />
+      {errors.description && (
+        <span>This field is required</span>
+      )}
       <button>Save</button>
     </form>
   );
